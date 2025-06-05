@@ -158,4 +158,5 @@ if s3_path:
             st.image(thumbnail_url, caption=f"Thumbnail for {selected_section}",  width=500)
     except Exception as e:
         st.error(f"Failed to load S3 path: {s3_path}")
+        st.error(f"{e}")
         st.error("Try a different S3 URL")
