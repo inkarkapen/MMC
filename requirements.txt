@@ -18,6 +18,7 @@ ome-zarr
 zarr
 dask
 s3fs
+st-files-connection
 
 # Web app
 streamlit
