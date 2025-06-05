@@ -25,6 +25,15 @@ def get_model(num_classes, weights=None, device='cuda'):
     model = model.to(device)
     return model
 
+# load
+@st.cache_resource
+def load_model(model_path, num_classes, device='cpu'):
+    model = get_model(num_classes, weights=None, device=device)
+    model.load_state_dict(torch.load(model_path, map_location=device))
+    model.to(device)
+    model.eval()
+    return model
+    
 # Label mapping loader
 def get_subclass_to_index_lookup(cache_path="subclass_to_index_isocortex.csv"):
     cache_path = Path(cache_path)
@@ -67,7 +76,6 @@ def load_preprocess_volume(s3_path):
     return tensor
 
 def predict_from_s3_path(s3_path, model, index_to_label, top_k=3, device='cuda'):
-    model.eval()
     input_tensor = load_preprocess_volume(s3_path).to(device)
 
     with torch.no_grad():
@@ -107,11 +115,8 @@ model_path = hf_hub_download(
 
 print("Model downloaded to:", model_path)
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = get_model(num_classes, weights=None, device=device)
-model.load_state_dict(torch.load(model_path, map_location=device))
-model.to(device)
-
+model = load_model(model_path, num_classes, device='cpu')
+    
 # SectionsId to s3 link look up
 section_to_s3 = dict(zip(df['MapMySectionsID'], df['STPT Data File Path']))
 s3_path = None
