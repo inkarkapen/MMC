@@ -90,7 +90,7 @@ def predict_from_s3_path(s3_path, model, index_to_label, top_k=3, device='cuda')
 #model_path="./resnet18/best_brainscan3d_model__isocortex.pth"
 subclass_csv="subclass_to_index_isocortex.csv"
 test_csv = "MapMySections_TestData.csv"
-df = pd.read_csv(test_csv)
+df = pd.read_csv(test_csv, usecols=["MapMySectionsID", "STPT Data File Path", "STPT Thumbnail Image"])
 
 # Load labels look up table
 label_map = get_subclass_to_index_lookup(subclass_csv)
