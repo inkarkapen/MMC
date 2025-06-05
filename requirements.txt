@@ -23,4 +23,4 @@ s3fs
 streamlit
 
 # Allen Brain Cell Atlas Access (from GitHub)
-abc_atlas_access[notebooks] @ git+https://github.com/alleninstitute/abc_atlas_access.git
+# abc_atlas_access[notebooks] @ git+https://github.com/alleninstitute/abc_atlas_access.git # needed only for training 
