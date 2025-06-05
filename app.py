@@ -27,7 +27,7 @@ def get_model(num_classes, weights=None, device='cuda'):
 
 # load
 @st.cache_resource
-def load_model(model_path, num_classes, device='cpu'):
+def load_model(model_path, num_classes, device='cuda'):
     model = get_model(num_classes, weights=None, device=device)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.to(device)
@@ -147,7 +147,7 @@ if s3_path:
         st.write(f"Running inference on S3 path:\n{s3_path}")
                 
         with st.spinner("Predicting..."):
-            predictions = predict_from_s3_path(s3_path, model, index_to_label=index_to_label, top_k=3, device=device)
+            predictions = predict_from_s3_path(s3_path, model, index_to_label=index_to_label, top_k=3, device='cpu')
 
         st.subheader("Top Predictions:")
         for label, prob in predictions:
